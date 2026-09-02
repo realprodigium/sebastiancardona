@@ -1,199 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
 :root {
-  --bg-color: #ECEBE9;
-  --text-color: #111111;
-  --text-light: #3D3D3D;
-  --text-muted: #5A5A5A;
-  --accent-color: #111111;
-  --accent-blue: #0E5A8A;
-  --border-color: rgba(17, 17, 17, 0.12);
-  --border-color-dark: rgba(17, 17, 17, 0.25);
-  --card-bg: rgba(255, 255, 255, 0.45);
-  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
-  --grid-line-color: rgba(17, 17, 17, 0.06);
-  
-  /* Layout Dimensions */
-  --header-h: 58px;
-  --footer-h: 52px;
-
-  /* Spring physics cubic bezier for animations */
-  --spring-easing: cubic-bezier(0.25, 1, 0.5, 1);
-  --spring-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --radius: 0.625rem;
+  --background: oklch(96.5% 0.008 155);
+  --foreground: oklch(18% 0.01 155);
+  --card: oklch(98.5% 0.005 155);
+  --card-foreground: oklch(18% 0.01 155);
+  --secondary: oklch(42% 0.015 155);
+  --secondary-foreground: oklch(18% 0.01 155);
+  --muted: oklch(94% 0.008 155);
+  --muted-foreground: oklch(42% 0.015 155);
+  --border: oklch(88% 0.012 155);
+  --primary: oklch(18% 0.01 155);
+  --primary-foreground: oklch(98% 0.005 155);
 }
 
-@media (max-width: 768px) {
-  :root {
-    --header-h: 54px;
-    --footer-h: 60px;
-  }
+.dark {
+  --background: oklch(14.5% 0 0);
+  --foreground: oklch(98.5% 0 0);
+  --card: oklch(20.5% 0 0);
+  --card-foreground: oklch(98.5% 0 0);
+  --secondary: oklch(70.8% 0 0);
+  --secondary-foreground: oklch(98.5% 0 0);
+  --muted: oklch(26.9% 0 0);
+  --muted-foreground: oklch(70.8% 0 0);
+  --border: oklch(100% 0 0 / 0.1);
+  --primary: oklch(92.2% 0 0);
+  --primary-foreground: oklch(20.5% 0 0);
 }
-
-@media (max-width: 480px) {
-  :root {
-    --header-h: 50px;
-    --footer-h: 66px;
-  }
-}
-
-/* Pure Minimalist Background */
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-::selection {
-  background-color: var(--text-color);
-  color: var(--bg-color);
+  border-color: var(--border);
 }
 
 html {
-  height: 100vh;
-  height: 100svh;
-  height: 100dvh;
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
-  scroll-padding-top: var(--header-h);
-  overflow-y: scroll;
-}
-
-body,
-#app {
-  min-height: 100%;
-  width: 100%;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  overflow-x: hidden;
+  font-family: var(--font-sans);
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-color);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(17, 17, 17, 0.2);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(17, 17, 17, 0.4);
+/* 40px x 40px Engineering Grid */
+.bg-green-grid {
+  background-color: var(--background);
+  background-image: 
+    linear-gradient(color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-/* Base styles for Links */
-a {
-  color: var(--text-color);
-  text-decoration: none;
-  transition: opacity 0.3s var(--spring-easing);
+.dark .bg-green-grid {
+  background-color: oklch(14% 0.015 160);
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-button {
-  cursor: pointer;
-  font-family: inherit;
+/* Glass Header */
+.glass-header {
+  background: color-mix(in srgb, var(--background) 80%, transparent);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  border-bottom: 1px solid var(--border);
 }
 
-/* --- ANIMATION HELPER CLASSES --- */
-
-/* Blur Reveal */
-.blur-reveal {
-  opacity: 0;
-  filter: blur(12px);
-  transform: translateY(20px);
-  transition: 
-    opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 1.4s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, filter, transform;
+/* Vinyl Player Texture & Spin */
+@keyframes vinyl-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.blur-reveal.revealed {
-  opacity: 1;
-  filter: blur(0px);
-  transform: translateY(0px);
+.animate-vinyl-spin {
+  animation: vinyl-spin 4s linear infinite;
 }
 
-/* Scroll Reveal */
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: 
-    opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+.vinyl-disc {
+  background-color: #111111;
+  background-image: 
+    radial-gradient(circle, transparent 24%, rgba(255, 255, 255, 0.04) 25%, transparent 26%),
+    radial-gradient(circle, transparent 44%, rgba(255, 255, 255, 0.03) 45%, transparent 46%),
+    repeating-radial-gradient(circle, #1c1c1c 0 1.5px, #0d0d0d 1.5px 3px);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.06), 0 4px 10px rgba(0, 0, 0, 0.35);
 }
 
-.scroll-reveal.revealed {
-  opacity: 1;
-  transform: translateY(0px);
-}
-
-/* Morphing Background Blob */
-.morphing-blob {
-  position: absolute;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(17, 17, 17, 0.03) 0%, rgba(17, 17, 17, 0) 70%);
-  filter: blur(20px);
-  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-  animation: morphBlob 16s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 1;
-}
-
-@keyframes morphBlob {
+/* Page Entrance */
+@keyframes fade-in-up {
   0% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    transform: rotate(0deg) translate(0px, 0px) scale(1);
-  }
-  50% {
-    border-radius: 40% 60% 50% 50% / 40% 50% 50% 60%;
-    transform: rotate(180deg) translate(50px, -30px) scale(1.1);
+    opacity: 0;
+    transform: translateY(8px);
   }
   100% {
-    border-radius: 50% 50% 40% 60% / 50% 60% 50% 45%;
-    transform: rotate(360deg) translate(-20px, 40px) scale(0.9);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Spring-based hover effects */
-.spring-hover {
-  transition: transform 0.6s var(--spring-bounce);
-}
-.spring-hover:hover {
-  transform: scale(1.06);
+.animate-in-up-on-view {
+  animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Background Grids (inspired by editorial and architecture layout) */
-.grid-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 4rem;
-  pointer-events: none;
-  z-index: 0;
+/* Selection */
+::selection {
+  background: color-mix(in srgb, var(--primary) 25%, transparent);
+  color: var(--foreground);
 }
 
-.grid-line {
-  width: 1px;
-  height: 100%;
-  background-color: var(--grid-line-color);
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-@media (max-width: 768px) {
-  .grid-overlay {
-    padding: 0 1.5rem;
-  }
-  .grid-line:nth-child(2),
-  .grid-line:nth-child(3) {
-    display: none;
-  }
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(125, 125, 125, 0.25);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 125, 125, 0.45);
 }

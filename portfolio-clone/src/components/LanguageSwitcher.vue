@@ -22,35 +22,35 @@ const toggleLanguage = () => {
 
 <style scoped>
 .lang-btn {
-  background: transparent;
-  border: 1px solid rgba(17, 17, 17, 0.15);
-  border-radius: 30px;
-  padding: 0.4rem 1rem;
-  color: #555555;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.6rem;
+  color: var(--text-dim);
   cursor: pointer;
   font-family: inherit;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  transition: border-color 0.4s ease, color 0.4s ease;
-  will-change: transform;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
 .lang-btn:hover {
-  border-color: rgba(17, 17, 17, 0.8);
-  color: #111111;
+  border-color: var(--border-focus);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-color);
 }
 
 .active {
-  color: #111111;
+  color: #ffffff;
   font-weight: 700;
 }
 
 .divider {
-  opacity: 0.3;
+  opacity: 0.25;
   font-weight: 400;
 }
 </style>
