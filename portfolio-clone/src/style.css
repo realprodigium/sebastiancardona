@@ -11,9 +11,27 @@
   --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
   --grid-line-color: rgba(17, 17, 17, 0.06);
   
+  /* Layout Dimensions */
+  --header-h: 58px;
+  --footer-h: 52px;
+
   /* Spring physics cubic bezier for animations */
   --spring-easing: cubic-bezier(0.25, 1, 0.5, 1);
   --spring-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-h: 54px;
+    --footer-h: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-h: 50px;
+    --footer-h: 66px;
+  }
 }
 
 /* Pure Minimalist Background */
@@ -29,10 +47,19 @@
   color: var(--bg-color);
 }
 
-html,
+html {
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: var(--header-h);
+  overflow-y: scroll;
+}
+
 body,
 #app {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   background-color: var(--bg-color);
   color: var(--text-color);
