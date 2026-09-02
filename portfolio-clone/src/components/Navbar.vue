@@ -44,54 +44,32 @@ onMounted(() => {
 
 <template>
   <header class="sticky top-0 z-50 w-full glass-header" role="banner">
-    <div class="container mx-auto flex h-14 max-w-3xl items-center justify-between gap-4 px-4 sm:px-6">
-      <!-- Monogram SC -->
-      <a 
-        href="#hero" 
-        class="font-mono text-lg font-bold tracking-tight text-foreground hover:opacity-80 transition-opacity" 
-        aria-label="Sebastián Cardona Home"
-      >
-        SC
-      </a>
+    <div class="container mx-auto flex h-13 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
+      <!-- macOS Window Control Buttons -->
+      <div class="flex items-center gap-2" aria-label="macOS Controls">
+        <span class="size-3 rounded-full bg-[#ff5f56] border border-[#e0443e]/50 shadow-sm transition-transform hover:scale-110 cursor-pointer" title="Close"></span>
+        <span class="size-3 rounded-full bg-[#ffbd2e] border border-[#dea123]/50 shadow-sm transition-transform hover:scale-110 cursor-pointer" title="Minimize"></span>
+        <span class="size-3 rounded-full bg-[#27c93f] border border-[#1aab29]/50 shadow-sm transition-transform hover:scale-110 cursor-pointer" title="Maximize"></span>
+      </div>
 
-      <!-- Center & Right Navigation Group -->
-      <div class="flex items-center gap-3 sm:gap-5">
-        <nav class="hidden sm:flex items-center gap-4 text-sm font-medium sm:gap-5">
-          <a href="#hero" class="text-secondary transition-colors hover:text-foreground">
-            {{ t('navHome') }}
-          </a>
-          <a href="#about" class="text-secondary transition-colors hover:text-foreground">
-            {{ t('navAbout') }}
-          </a>
-          <a href="#stack" class="text-secondary transition-colors hover:text-foreground">
-            {{ t('navStack') }}
-          </a>
-          <a href="#projects" class="text-secondary transition-colors hover:text-foreground">
-            {{ t('navProjects') }}
-          </a>
-          <a href="#activity" class="text-secondary transition-colors hover:text-foreground">
-            {{ t('navActivity') }}
-          </a>
-        </nav>
+      <!-- Center Navigation with Greater Separation -->
+      <nav class="flex items-center gap-7 sm:gap-9 text-xs sm:text-sm font-medium">
+        <a href="#hero" class="text-secondary transition-colors hover:text-foreground">
+          {{ t('navHome') }}
+        </a>
+        <a href="#stack" class="text-secondary transition-colors hover:text-foreground">
+          {{ t('navStack') }}
+        </a>
+        <a href="#projects" class="text-secondary transition-colors hover:text-foreground">
+          {{ t('navProjects') }}
+        </a>
+        <a href="#activity" class="text-secondary transition-colors hover:text-foreground">
+          {{ t('navActivity') }}
+        </a>
+      </nav>
 
-        <!-- Command Palette Trigger Chip -->
-        <button 
-          type="button" 
-          aria-label="Open command palette" 
-          class="inline-flex h-8 items-center gap-2 rounded-full border border-border/70 bg-card/80 px-2.5 sm:px-3 text-xs sm:text-sm text-secondary shadow-sm transition-colors hover:border-foreground/20 hover:text-foreground"
-          @click="emit('open-command-palette')"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" class="size-3.5 sm:size-4">
-            <path d="M232.49,215.51,185,168a92.12,92.12,0,1,0-17,17l47.53,47.54a12,12,0,0,0,17-17ZM44,112a68,68,0,1,1,68,68A68.07,68.07,0,0,1,44,112Z"/>
-          </svg>
-          <span class="hidden items-center gap-1 sm:inline-flex">
-            <kbd class="inline-flex h-5 min-w-5 items-center justify-center rounded border border-border/80 bg-muted px-1 font-mono text-[10px]">⌘</kbd>
-            <kbd class="inline-flex h-5 min-w-5 items-center justify-center rounded border border-border/80 bg-muted px-1 font-mono text-[10px]">K</kbd>
-          </span>
-        </button>
-
-        <div class="h-4 w-px bg-border/60 hidden sm:block"></div>
-
+      <!-- Right Controls: Language & Theme Switcher -->
+      <div class="flex items-center gap-2 sm:gap-2.5">
         <!-- Language Switcher Pill Button -->
         <button 
           type="button" 

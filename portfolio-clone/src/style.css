@@ -54,23 +54,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 40px x 40px Engineering Grid */
-.bg-green-grid {
-  background-color: var(--background);
-  background-image: 
-    linear-gradient(color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px);
-  background-size: 40px 40px;
-  transition: background-color 0.2s, color 0.2s;
-}
+/* GitHub Contributions Calendar (Light & Dark matching github.com) */
+.gh-day-0 { background-color: #ebedf0; border: 1px solid rgba(27, 31, 35, 0.06); }
+.gh-day-1 { background-color: #9be9a8; border: 1px solid rgba(27, 31, 35, 0.06); }
+.gh-day-2 { background-color: #40c463; border: 1px solid rgba(27, 31, 35, 0.06); }
+.gh-day-3 { background-color: #30a14e; border: 1px solid rgba(27, 31, 35, 0.06); }
+.gh-day-4 { background-color: #216e39; border: 1px solid rgba(27, 31, 35, 0.06); }
 
-.dark .bg-green-grid {
-  background-color: oklch(14% 0.015 160);
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
+.dark .gh-day-0 { background-color: #161b22; border: 1px solid rgba(255, 255, 255, 0.05); }
+.dark .gh-day-1 { background-color: #0e4429; border: 1px solid rgba(255, 255, 255, 0.05); }
+.dark .gh-day-2 { background-color: #006d32; border: 1px solid rgba(255, 255, 255, 0.05); }
+.dark .gh-day-3 { background-color: #26a641; border: 1px solid rgba(255, 255, 255, 0.05); }
+.dark .gh-day-4 { background-color: #39d353; border: 1px solid rgba(255, 255, 255, 0.05); }
 
 /* Glass Header */
 .glass-header {

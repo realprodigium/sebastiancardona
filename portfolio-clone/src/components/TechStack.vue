@@ -6,20 +6,22 @@ const { t } = useI18n()
 const techItems = [
   { name: 'Python', slug: 'python', category: 'Backend' },
   { name: 'FastAPI', slug: 'fastapi', category: 'Backend' },
+  { name: 'JavaScript', slug: 'javascript', category: 'Language' },
   { name: 'TypeScript', slug: 'typescript', category: 'Language' },
-  { name: 'Vue.js', slug: 'vuedotjs', category: 'Frontend' },
   { name: 'React', slug: 'react', category: 'Frontend' },
+  { name: 'React Native', slug: 'react', category: 'Mobile' },
+  { name: 'Vue.js', slug: 'vuedotjs', category: 'Frontend' },
   { name: 'Node.js', slug: 'nodedotjs', category: 'Backend' },
   { name: 'PostgreSQL', slug: 'postgresql', category: 'Database' },
   { name: 'Redis', slug: 'redis', category: 'Cache / DB' },
   { name: 'Docker', slug: 'docker', category: 'DevOps' },
+  { name: 'GitHub Actions', slug: 'githubactions', category: 'CI/CD' },
   { name: 'Git', slug: 'git', category: 'Tooling' },
   { name: 'GitHub', slug: 'github', category: 'Tooling' },
   { name: 'Supabase', slug: 'supabase', category: 'Cloud DB' },
   { name: 'MQTT', slug: 'eclipsemosquitto', category: 'IoT Protocol' },
   { name: 'Tailwind CSS', slug: 'tailwindcss', category: 'CSS' },
-  { name: 'Postman', slug: 'postman', category: 'Testing' },
-  { name: 'Linux', slug: 'linux', category: 'OS' }
+  { name: 'Postman', slug: 'postman', category: 'Testing' }
 ]
 </script>
 

@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import Navbar from '../components/Navbar.vue'
 import CommandPalette from '../components/CommandPalette.vue'
 import HeroSection from '../components/HeroSection.vue'
-import ShortAbout from '../components/ShortAbout.vue'
 import TechStack from '../components/TechStack.vue'
 import ProjectsSection from '../components/ProjectsSection.vue'
 import AboutSection from '../components/AboutSection.vue'
@@ -24,7 +23,7 @@ const showToast = (msg) => {
 </script>
 
 <template>
-  <div class="relative min-h-screen flex flex-col bg-green-grid text-foreground transition-colors duration-200">
+  <div class="relative min-h-screen flex flex-col bg-background text-foreground transition-colors duration-200">
     <!-- Sticky Glass Top Navigation Bar -->
     <Navbar @open-command-palette="isCmdOpen = true" />
 
@@ -36,11 +35,8 @@ const showToast = (msg) => {
 
     <!-- Main Editorial Single-Column Content Flow (max-w-3xl) -->
     <main class="flex-1 w-full space-y-4 pb-20 pt-4">
-      <!-- Hero Section (Avatar Swap, Role Blur Carousel, Copy Email, Spotify Vinyl) -->
+      <!-- Hero Section (Avatar Swap, Role Blur Carousel, Copy Email) -->
       <HeroSection @copied-email="showToast" />
-
-      <!-- User Requested: Dedicated Short Description About Me Section -->
-      <ShortAbout />
 
       <!-- Tech Stack Dashed Squircle Grid (SimpleIcons) -->
       <TechStack />

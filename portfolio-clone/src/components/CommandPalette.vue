@@ -40,7 +40,6 @@ const allCommands = computed(() => [
     category: t('cmdNavigation'),
     items: [
       { id: 'nav-home', label: t('navHome'), icon: Home, action: () => scrollTo('#hero') },
-      { id: 'nav-about', label: t('navAbout'), icon: User, action: () => scrollTo('#about') },
       { id: 'nav-stack', label: t('navStack'), icon: Layers, action: () => scrollTo('#stack') },
       { id: 'nav-projects', label: t('navProjects'), icon: FolderGit2, action: () => scrollTo('#projects') },
       { id: 'nav-activity', label: t('navActivity'), icon: Activity, action: () => scrollTo('#activity') },
