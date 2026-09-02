@@ -2,15 +2,29 @@
 import { useI18n } from 'vue-i18n'
 import LanguageSwitcher from '../components/LanguageSwitcher.vue'
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { ArrowDown, ExternalLink, Download } from 'lucide-vue-next'
+import { 
+  ArrowDown, 
+  ExternalLink, 
+  Download,
+  Menu,
+  X as CloseIcon
+} from 'lucide-vue-next'
 
 const { t, tm, locale } = useI18n()
 
 const cvLink = computed(() => {
   return locale.value === 'es'
-    ? { href: '/CV_Sebastian_Cardona_ES.pdf', download: 'CV_Sebastian_Cardona_ES.pdf' }
-    : { href: '/CV_Sebastian_Cardona_EN.pdf', download: 'CV_Sebastian_Cardona_EN.pdf' }
+    ? { href: '/Ingeniero_de_Software_Sebastián_Cardona.pdf', download: 'Ingeniero_de_Software_Sebastián_Cardona.pdf' }
+    : { href: '/CV_Sebastian_Cardona_EN.pdf', download: 'Software_Engineer_Sebastian_Cardona.pdf' }
 })
+
+const isMenuOpen = ref(false)
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+}
+const closeMenu = () => {
+  isMenuOpen.value = false
+}
 
 const scrollY = ref(0)
 const onScroll = () => {
@@ -68,7 +82,7 @@ const initScrollReveal = () => {
     })
   }, {
     threshold: 0.05,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -30px 0px'
   })
   
   document.querySelectorAll('.blur-reveal, .scroll-reveal').forEach((el) => {
@@ -76,27 +90,9 @@ const initScrollReveal = () => {
   })
 }
 
-const vMagnetic = {
-  mounted(el) {
-    el.addEventListener('mousemove', (e) => {
-      const rect = el.getBoundingClientRect()
-      const x = e.clientX - rect.left - rect.width / 2
-      const y = e.clientY - rect.top - rect.height / 2
-      const pull = 0.35
-      el.style.transform = `translate3d(${x * pull}px, ${y * pull}px, 0)`
-      el.style.transition = 'transform 0.08s ease-out'
-    })
-    
-    el.addEventListener('mouseleave', () => {
-      el.style.transform = 'translate3d(0, 0, 0)'
-      el.style.transition = 'transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-    })
-  }
-}
-
 onMounted(() => {
-  window.addEventListener('scroll', onScroll)
-  window.addEventListener('mousemove', onMouseMove)
+  window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('mousemove', onMouseMove, { passive: true })
   updateHoverImgPos()
   initScrollReveal()
 })
@@ -120,142 +116,248 @@ watch(locale, () => {
 </script>
 
 <template>
-  <div class="page-wrapper">
-    <div class="morphing-blob blob-one"></div>
-    <div class="morphing-blob blob-two"></div>
-
+  <div class="page-wrapper font-inter" :class="{ 'menu-lock': isMenuOpen }">
+    <!-- Mouse hover image follower (desktop only) -->
     <div 
       class="hover-image-follower" 
       :class="{ active: activeHoverImg }"
       :style="{ transform: `translate3d(${hoverImgX}px, ${hoverImgY}px, 0)` }"
+      aria-hidden="true"
     >
       <img v-if="activeHoverImg" :src="activeHoverImg" alt="Project Preview" />
     </div>
 
-    <header class="top-header font-inter">
-      <div class="header-col" style="text-align: right;">
-        <LanguageSwitcher />
+    <!-- Header Navigation -->
+    <header class="top-header" role="banner">
+      <div class="header-left-spacer" aria-hidden="true"></div>
+      
+      <!-- Desktop Centered Navigation -->
+      <nav class="header-nav-center desktop-nav" aria-label="Main Navigation">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#architecture" class="nav-link">Architecture</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+      
+      <div class="header-actions-right">
+        <div class="desktop-lang">
+          <LanguageSwitcher />
+        </div>
+        
+        <!-- Mobile Burger Menu Toggle -->
+        <button 
+          class="mobile-menu-btn" 
+          @click="toggleMenu" 
+          :aria-expanded="isMenuOpen"
+          :aria-label="isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'"
+        >
+          <CloseIcon v-if="isMenuOpen" size="22" />
+          <Menu v-else size="22" />
+        </button>
       </div>
     </header>
 
-    <section id="hero" class="hero-section">
-      <h1 class="hero-huge-text-top blur-reveal font-inter">
-        SOFTWARE<br>ENGINEER
-      </h1>
-
-      <div class="hero-bottom-section">
-        <div class="hero-bio-container blur-reveal">
-          <ArrowDown stroke-width="2" size="48" class="hero-arrow" />
-          <p class="hero-bio-text font-inter">{{ t('bio') }}</p>
+    <!-- Mobile Drawer / Overlay Navigation -->
+    <transition name="mobile-menu">
+      <div v-if="isMenuOpen" class="mobile-nav-overlay" @click.self="closeMenu">
+        <div class="mobile-nav-content">
+          <nav class="mobile-nav-links" aria-label="Mobile Navigation">
+            <a href="#about" class="mobile-nav-link" @click="closeMenu">About</a>
+            <a href="#architecture" class="mobile-nav-link" @click="closeMenu">Architecture</a>
+            <a href="#projects" class="mobile-nav-link" @click="closeMenu">Projects</a>
+            <a href="#contact" class="mobile-nav-link" @click="closeMenu">Contact</a>
+          </nav>
+          
+          <div class="mobile-nav-footer">
+            <LanguageSwitcher />
+          </div>
         </div>
-        
-        <div class="hero-huge-text-bottom blur-reveal font-inter" :style="{ transform: `translate3d(0, ${scrollY * -0.03}px, 0)` }">
+      </div>
+    </transition>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section" aria-label="Introduction">
+      <div class="hero-top-row">
+        <h1 class="hero-huge-text-top blur-reveal">
+          SOFTWARE<br>ENGINEER
+        </h1>
+      </div>
+
+      <div class="hero-center-row">
+        <div class="hero-bio-container blur-reveal">
+          <ArrowDown stroke-width="2" size="36" class="hero-arrow" aria-hidden="true" />
+          <p class="hero-bio-text">{{ t('bio') }}</p>
+        </div>
+      </div>
+
+      <div class="hero-bottom-row">
+        <div 
+          class="hero-huge-text-bottom blur-reveal" 
+          :style="{ transform: `translate3d(0, ${scrollY * -0.015}px, 0)` }"
+          aria-label="Sebastián Cardona"
+        >
           SEBASTIÁN<br>CARDONA
         </div>
       </div>
     </section>
 
-    <div class="main-content">
+    <!-- Main Content Flowing Directly with Background Color -->
+    <main class="main-content">
       
-      <section id="about" class="section about-section">
+      <!-- About Me Section -->
+      <section id="about" class="section about-section" aria-labelledby="about-heading">
         <div class="section-header-block">
-          <h3 class="section-title blur-reveal font-inter">{{ t('aboutTitle') }}</h3>
+          <h2 id="about-heading" class="section-title blur-reveal">{{ t('aboutTitle') }}</h2>
         </div>
         
         <div class="about-grid">
-          <div class="about-summary-col scroll-reveal">
-            <p class="summary-paragraph font-inter">{{ t('aboutP1') }}</p>
-            <p class="summary-paragraph font-inter">{{ t('aboutP2') }}</p>
-            <p class="summary-paragraph font-inter">{{ t('aboutP3') }}</p>
-
-            <div class="education-block scroll-reveal">
-              <h4 class="sub-block-title font-inter">{{ t('educationTitle') }}</h4>
-              <p class="education-text font-inter">{{ t('educationText') }}</p>
-            </div>
+          <!-- Text Paragraphs -->
+          <div class="about-text-col scroll-reveal">
+            <p class="summary-paragraph leading-para">{{ t('aboutP1') }}</p>
+            <p class="summary-paragraph">{{ t('aboutP2') }}</p>
+            <p class="summary-paragraph">{{ t('aboutP3') }}</p>
           </div>
 
-          <div class="skills-col scroll-reveal" style="transition-delay: 0.1s;">
-            <h4 class="sub-block-title font-inter">{{ t('skillsTitle') }}</h4>
-            <div class="skills-grid">
-              <div 
-                v-for="(catName, catKey) in tm('skillCategories')" 
-                :key="catKey" 
-                class="skill-category-card"
-              >
-                <h5 class="skill-cat-title font-inter">{{ catName }}</h5>
-                <p class="skill-cat-items font-inter">{{ tm('skills')[catKey] }}</p>
-              </div>
+          <!-- Education & Credentials -->
+          <div class="about-meta-col scroll-reveal" style="transition-delay: 0.1s;">
+            <div class="meta-subgroup">
+              <h3 class="meta-label">{{ t('educationTitle') }}</h3>
+              <p class="meta-value">{{ t('educationText') }}</p>
+            </div>
+
+            <div class="meta-subgroup">
+              <h3 class="meta-label">{{ t('certificationsTitle') }}</h3>
+              <ul class="meta-list">
+                <li v-for="(cert, cIdx) in tm('certifications')" :key="cIdx">
+                  {{ cert }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="meta-subgroup">
+              <h3 class="meta-label">{{ t('locationText') }}</h3>
+              <p class="meta-value">Santa Marta, Colombia · Remote & Relocation</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="projects" class="section projects-section">
+      <!-- Architecture Levels & Principles Section (Clean Diagram) -->
+      <section id="architecture" class="section architecture-section" aria-labelledby="architecture-heading">
         <div class="section-header-block">
-          <h3 class="section-title blur-reveal font-inter">{{ t('projectsTitle') }}</h3>
+          <h2 id="architecture-heading" class="section-title blur-reveal">{{ t('skillsTitle') }}</h2>
+          <p class="section-subtitle">{{ t('skillsDiagramSubtitle') }}</p>
         </div>
 
-        <div class="projects-list">
-          <div 
+        <div class="levels-diagram-list scroll-reveal">
+          <article 
+            v-for="layer in tm('skillLayers')" 
+            :key="layer.level"
+            class="level-row-item"
+          >
+            <div class="level-indicator-col">
+              <span class="level-code-tag">{{ layer.level }}</span>
+              <div class="level-titles">
+                <h3 class="level-name">{{ layer.name }}</h3>
+                <span class="level-role-sub">{{ layer.roleType }}</span>
+              </div>
+            </div>
+
+            <div class="level-tags-col">
+              <span 
+                v-for="(tag, tIdx) in layer.tags" 
+                :key="tIdx" 
+                class="minimal-tech-tag"
+              >
+                {{ tag }}
+              </span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Featured Projects Section (Single Frame View per Project) -->
+      <section id="projects" class="section projects-section" aria-labelledby="projects-heading">
+        <div class="section-header-block">
+          <h2 id="projects-heading" class="section-title blur-reveal">{{ t('projectsTitle') }}</h2>
+          <p class="section-subtitle">{{ t('projectsSubtitle') }}</p>
+        </div>
+
+        <div class="projects-editorial-list">
+          <article 
             v-for="project in tm('projects')" 
             :key="project.id" 
-            class="project-row-item scroll-reveal"
+            class="project-frame-row scroll-reveal"
             @mouseenter="project.preview ? showHoverImage(project.preview) : null"
             @mouseleave="hideHoverImage"
           >
-            <div class="project-row-header">
-              <h4 class="proj-title font-inter">{{ project.title }}</h4>
-            </div>
+            <!-- Project Content Left / Top Side -->
+            <div class="project-info-side">
+              <div class="project-row-topline">
+                <span class="proj-num">{{ project.num }}</span>
+                <span class="proj-badge">{{ project.badge }}</span>
+              </div>
 
-            <div class="project-row-body">
-              <div class="project-row-body-inner">
-                <p class="proj-description font-inter">{{ project.description }}</p>
-                
-                <ul class="proj-bullet-list font-inter">
-                  <li v-for="(bullet, bIdx) in project.bullet_points" :key="bIdx">
-                    {{ bullet }}
-                  </li>
-                </ul>
+              <h3 class="proj-heading">{{ project.title }}</h3>
+              <p class="proj-subheading">{{ project.subtitle }}</p>
+              <p class="proj-summary">{{ project.description }}</p>
+              
+              <ul class="proj-bullet-list">
+                <li v-for="(bullet, bIdx) in project.bullet_points" :key="bIdx">
+                  <span class="bullet-dot" aria-hidden="true">—</span>
+                  <span>{{ bullet }}</span>
+                </li>
+              </ul>
 
-                <div class="proj-meta-info font-inter">
-                  <div class="proj-tech-stack">
-                    <strong>Tech:</strong> {{ project.technologies }}
-                  </div>
-                  <a 
-                    v-if="project.github_link" 
-                    :href="project.github_link" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    class="proj-github-link magnetic interactive"
-                    v-magnetic
+              <div class="proj-footer-bar">
+                <div class="proj-tags-wrap">
+                  <span 
+                    v-for="(tech, techIdx) in project.technologies" 
+                    :key="techIdx" 
+                    class="proj-inline-tag"
                   >
-                    {{ t('github') }} <ExternalLink size="14" style="margin-left: 0.25rem;" />
-                  </a>
+                    {{ tech }}
+                  </span>
                 </div>
-
-                <div v-if="project.preview" class="proj-embed-preview">
-                  <img :src="project.preview" :alt="project.title" />
-                </div>
+                
+                <a 
+                  v-if="project.github_link" 
+                  :href="project.github_link" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="proj-github-action interactive"
+                  :aria-label="`${t('github')} - ${project.title}`"
+                >
+                  {{ t('github') }} <ExternalLink size="13" class="action-icon" />
+                </a>
               </div>
             </div>
-          </div>
+
+            <!-- Project Image Preview Right / Bottom Side -->
+            <div v-if="project.preview" class="project-preview-side">
+              <div class="project-thumbnail-wrapper">
+                <img :src="project.preview" :alt="`${project.title} Preview`" loading="lazy" />
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section id="contact" class="section contact-section">
+      <!-- Contact Section -->
+      <section id="contact" class="section contact-section" aria-labelledby="contact-heading">
         <div class="section-header-block">
-          <h3 class="section-title blur-reveal font-inter">{{ t('contactTitle') }}</h3>
+          <h2 id="contact-heading" class="section-title blur-reveal">{{ t('contactTitle') }}</h2>
         </div>
 
-        <div class="contact-content-grid">
-          <div class="contact-info-col scroll-reveal">
-            <p class="contact-sub-text font-inter">{{ t('contactSub') }}</p>
+        <div class="contact-editorial-grid">
+          <div class="contact-left-col scroll-reveal">
+            <p class="contact-sub-text">{{ t('contactSub') }}</p>
             
             <div class="huge-email-wrapper">
               <a 
                 href="mailto:scarrdona@gmail.com" 
-                class="huge-email-link interactive magnetic font-inter"
-                v-magnetic
+                class="huge-email-link interactive"
+                aria-label="Email scarrdona@gmail.com"
               >
                 scarrdona@gmail.com
               </a>
@@ -265,41 +367,72 @@ watch(locale, () => {
               <a 
                 :href="cvLink.href"
                 :download="cvLink.download"
-                class="cv-btn interactive magnetic font-inter"
-                v-magnetic
+                class="cv-btn interactive"
+                :aria-label="`${t('downloadCV')} (${locale.toUpperCase()})`"
               >
-                {{ t('downloadCV') }}
-                <Download size="18" stroke-width="2.5" style="margin-left: 0.5rem;" />
+                <span>{{ t('downloadCV') }}</span>
+                <Download size="16" stroke-width="2.2" class="cv-icon" />
               </a>
             </div>
           </div>
 
-          <div class="contact-socials-col scroll-reveal" style="transition-delay: 0.1s;">
-            <div class="social-links-list font-inter">
-              <div class="social-item">
+          <div class="contact-right-col scroll-reveal" style="transition-delay: 0.1s;">
+            <div class="social-links-flow">
+              <div class="social-row">
                 <span class="social-label">{{ t('phoneLabel') }}</span>
                 <a href="tel:+573152052580" class="social-link interactive">+57 315 205 2580</a>
               </div>
-              <div class="social-item">
+              
+              <div class="social-row">
                 <span class="social-label">{{ t('linkedinLabel') }}</span>
-                <a href="https://linkedin.com/in/sebastiansaintt" target="_blank" rel="noopener noreferrer" class="social-link interactive">linkedin.com/in/franchisium <ExternalLink size="14" style="display:inline; margin-left: 0.1rem; margin-bottom: 0.1rem;" /></a>
+                <a 
+                  href="https://linkedin.com/in/sebastiansaintt" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="social-link interactive"
+                >
+                  linkedin.com/in/sebastiansaintt 
+                  <ExternalLink size="13" class="social-icon" />
+                </a>
               </div>
-              <div class="social-item">
+              
+              <div class="social-row">
                 <span class="social-label">{{ t('githubLabel') }}</span>
-                <a href="https://github.com/sebastiansaintt" target="_blank" rel="noopener noreferrer" class="social-link interactive">github.com/realprodigium <ExternalLink size="14" style="display:inline; margin-left: 0.1rem; margin-bottom: 0.1rem;" /></a>
+                <a 
+                  href="https://github.com/sebastiansaintt" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="social-link interactive"
+                >
+                  github.com/sebastiansaintt 
+                  <ExternalLink size="13" class="social-icon" />
+                </a>
+              </div>
+
+              <div class="social-row">
+                <span class="social-label">{{ t('xLabel') }}</span>
+                <a 
+                  href="https://x.com/sebastiansaintt" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="social-link interactive"
+                >
+                  x.com/sebastiansaintt 
+                  <ExternalLink size="13" class="social-icon" />
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-    </div>
+    </main>
 
     <!-- Page Footer -->
-    <footer class="footer scroll-reveal">
-      <div class="footer-inner font-inter">
-        <p>© 2026 {{ t('footer') }}</p>
-        <p style="opacity: 0.5; font-size: 0.65rem;">Colombia</p>
+    <footer class="footer scroll-reveal" role="contentinfo">
+      <div class="footer-inner">
+        <p>© 2026 {{ t('name') }} — {{ t('footer') }}</p>
+        <p class="location-tag">{{ t('locationText') }}</p>
       </div>
     </footer>
   </div>
@@ -311,289 +444,532 @@ watch(locale, () => {
   min-height: 100vh;
   z-index: 1;
   background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+.menu-lock {
+  overflow: hidden;
 }
 
 .font-inter {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
+/* Header */
 .top-header {
-  position: absolute;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 1.4rem 1.9rem;
+  padding: 1.1rem 2.5rem;
+  background: rgba(236, 235, 233, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 0.5px solid var(--border-color);
+  z-index: 100;
+}
+
+
+.header-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  justify-content: center;
+}
+
+.nav-link {
   font-size: 0.8rem;
   font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover, .nav-link:focus-visible {
   color: var(--text-color);
-  z-index: 1000;
 }
 
-.header-col {
-  padding: 0 0.5rem;
+.header-actions-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
 }
 
-.blob-one {
-  top: 15%;
-  left: 5%;
-  width: 500px;
-  height: 500px;
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-color);
+  padding: 0.25rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
 }
 
-.blob-two {
-  top: 60%;
-  right: 5%;
-  width: 600px;
-  height: 600px;
-}
-
-.hero-section {
-  padding: 5.7rem 1.9rem 1.9rem 1.9rem;
+/* Mobile Drawer / Overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(236, 235, 233, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 99;
   display: flex;
   flex-direction: column;
-  min-height: 98vh;
+  padding: 2.5rem 1.8rem;
+}
+
+.mobile-nav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.mobile-nav-link {
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--text-color);
+  border-bottom: 0.5px solid var(--border-color);
+  padding-bottom: 0.8rem;
+}
+
+.mobile-nav-footer {
+  padding-top: 2rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Transition for mobile menu */
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 2.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 60px);
+  min-height: 560px;
+  max-height: 980px;
+  box-sizing: border-box;
   position: relative;
   z-index: 2;
 }
 
+.hero-top-row {
+  width: 100%;
+  text-align: left;
+}
+
 .hero-huge-text-top {
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: clamp(3.2rem, 8.5vw, 7.5rem);
   font-weight: 500;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  margin-bottom: 2rem;
   color: var(--text-color);
+  text-align: left;
 }
 
-.hero-mid-section {
+.hero-center-row {
   width: 100%;
-  max-width: 480px;
-  margin-bottom: 1rem;
-  padding-left: 2rem; 
-}
-
-.hero-image-container {
-  width: 100%;
-}
-
-.hero-profile-pic {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.hero-bottom-section {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-top: auto;
-  width: 100%;
+  justify-content: flex-start;
+  margin: 1.5rem 0;
 }
 
 .hero-bio-container {
   display: flex;
-  gap: 1rem;
+  gap: 1.2rem;
   align-items: flex-start;
-  max-width: 370px;
+  max-width: 440px;
 }
 
 .hero-arrow {
   flex-shrink: 0;
+  color: var(--text-color);
+  margin-top: 3px;
 }
 
 .hero-bio-text {
-  font-size: 18px;
+  font-size: 1.02rem;
   font-weight: 400;
-  line-height: 1.4;
-  letter-spacing: -0.5px;
+  line-height: 1.5;
+  color: var(--text-light);
+  letter-spacing: -0.01em;
+}
+
+.hero-bottom-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
 }
 
 .hero-huge-text-bottom {
   text-align: right;
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size: clamp(3.2rem, 8.5vw, 7.5rem);
   font-weight: 500;
   line-height: 0.9;
   letter-spacing: -0.04em;
   color: var(--text-color);
 }
 
+/* Main Content */
 .main-content {
-  padding: 0 2rem;
+  padding: 0 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 6rem;
   position: relative;
   z-index: 2;
 }
 
 .section {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1350px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.4rem; 
-  padding-top: 2.85rem;
+  padding-top: 3rem;
 }
 
 .section-header-block {
-  margin-bottom: 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background-color: var(--bg-color);
-  padding: 1rem 0;
+  margin-bottom: 2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 0.5px solid var(--border-color);
 }
 
 .section-title {
-  font-size: 45px;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1.1;
   text-transform: uppercase;
+  color: var(--text-color);
 }
 
+.section-subtitle {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+/* About Section */
 .about-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 2.85rem;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3.5rem;
 }
 
 .summary-paragraph {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.96rem;
+  line-height: 1.7;
   color: var(--text-light);
-  margin-bottom: 1rem;
+  margin-bottom: 1.4rem;
 }
 
-.sub-block-title {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 0.8rem;
-  margin-top: 2rem;
+.summary-paragraph.leading-para {
+  font-size: 1.04rem;
   color: var(--text-color);
+  font-weight: 450;
 }
 
-.education-text {
-  font-size: 0.95rem;
-  color: var(--text-light);
-  line-height: 1.6;
+.about-meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.skills-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+.meta-subgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.skill-category-card {
-  padding: 1rem;
-  background-color: transparent;
-}
-
-.skill-cat-title {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+.meta-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-color);
-  margin-bottom: 0.3rem;
+  color: var(--text-muted);
 }
 
-.skill-cat-items {
-  font-size: 0.85rem;
-  color: var(--text-light);
+.meta-value {
+  font-size: 0.92rem;
+  color: var(--text-color);
   line-height: 1.5;
 }
 
-/* Projects Layout */
-.projects-list {
+.meta-list {
+  list-style: none;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 1.9rem;
+  gap: 0.35rem;
 }
 
-.project-row-item {
-  padding: 1rem 0;
-  position: relative;
-}
-
-.project-row-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.proj-title {
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-}
-
-.proj-description {
-  font-size: 0.95rem;
-  line-height: 1.6;
+.meta-list li {
+  font-size: 0.88rem;
   color: var(--text-light);
-  max-width: 800px;
-  margin-bottom: 1rem;
+  line-height: 1.45;
 }
 
-.proj-bullet-list {
-  list-style-type: square;
-  margin-left: 1rem;
-  margin-bottom: 1.5rem;
-  color: var(--text-light);
-  font-size: 0.9rem;
+.meta-list li::before {
+  content: "— ";
+  color: var(--text-muted);
+}
+
+/* Architecture Levels Diagram */
+.levels-diagram-list {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  max-width: 800px;
 }
 
-.proj-meta-info {
+.level-row-item {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 1.3rem 0;
+  border-bottom: 0.5px solid var(--border-color);
+}
+
+.level-indicator-col {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  align-items: baseline;
+  gap: 1rem;
 }
 
-.proj-tech-stack {
-  font-size: 0.8rem;
-  color: var(--text-light);
-}
-
-.proj-github-link {
-  display: inline-flex;
-  align-items: center;
+.level-code-tag {
   font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 24px;
+}
+
+.level-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.level-name {
+  font-size: 0.94rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
   color: var(--text-color);
 }
 
-.proj-embed-preview {
-  width: 100%;
-  max-width: 600px;
-  margin-top: 1rem;
+.level-role-sub {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.proj-embed-preview img {
+.level-tags-col {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.minimal-tech-tag {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  padding: 0.22rem 0.55rem;
+  border: 0.5px solid var(--border-color-dark);
+  border-radius: 4px;
+  background: rgba(17, 17, 17, 0.02);
+  white-space: nowrap;
+}
+
+/* Projects Section */
+.projects-editorial-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.project-frame-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  padding: 2rem 0;
+  border-bottom: 0.5px solid var(--border-color);
+}
+
+.project-info-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.project-row-topline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.proj-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.proj-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border: 0.5px solid var(--border-color-dark);
+  border-radius: 99px;
+  color: var(--text-color);
+}
+
+.proj-heading {
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-color);
+  margin-top: 0.2rem;
+}
+
+.proj-subheading {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.proj-summary {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-light);
+  margin-top: 0.2rem;
+}
+
+.proj-bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.4rem 0;
+}
+
+.proj-bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--text-light);
+}
+
+.bullet-dot {
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+.proj-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 0.5px dashed var(--border-color);
+}
+
+.proj-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.proj-inline-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.15rem 0.45rem;
+  border: 0.5px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-muted);
+}
+
+.proj-github-action {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-bottom: 1px solid var(--text-color);
+  padding-bottom: 1px;
+  transition: opacity 0.2s ease;
+}
+
+.proj-github-action:hover {
+  opacity: 0.6;
+}
+
+.action-icon {
+  margin-bottom: 1px;
+}
+
+.project-preview-side {
   width: 100%;
-  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.project-thumbnail-wrapper {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 16/10;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 0.5px solid var(--border-color-dark);
+  background: #ffffff;
+}
+
+.project-thumbnail-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
+/* Hover thumbnail follower */
 .hover-image-follower {
   position: fixed;
   top: 0;
@@ -602,9 +978,11 @@ watch(locale, () => {
   height: 200px;
   pointer-events: none;
   z-index: 999;
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
   opacity: 0;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  border: 0.5px solid var(--border-color-dark);
   transform: scale(0.85);
   transform-origin: center center;
   transition: opacity 0.3s var(--spring-easing), transform 0.3s var(--spring-bounce);
@@ -622,10 +1000,11 @@ watch(locale, () => {
   object-fit: cover;
 }
 
-.contact-content-grid {
+/* Contact Section */
+.contact-editorial-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.9rem;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 3.5rem;
 }
 
 .contact-sub-text {
@@ -637,20 +1016,23 @@ watch(locale, () => {
 
 .huge-email-wrapper {
   margin-bottom: 2rem;
+  word-break: break-all;
 }
 
 .huge-email-link {
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-size: clamp(1.3rem, 3.2vw, 2.4rem);
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--text-color);
   display: inline-block;
-  transition: transform 0.3s var(--spring-bounce);
-  will-change: transform;
+  border-bottom: 1.5px solid var(--text-color);
+  padding-bottom: 2px;
+  transition: opacity 0.2s ease;
+  word-break: break-all;
 }
 
 .huge-email-link:hover {
-  transform: skewX(-4deg) scale(1.02);
+  opacity: 0.6;
 }
 
 .cv-download-wrapper {
@@ -660,241 +1042,302 @@ watch(locale, () => {
 .cv-btn {
   display: inline-flex;
   align-items: center;
-  font-size: 0.8rem;
+  gap: 0.5rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-color);
+  border: 1px solid var(--text-color);
+  padding: 0.65rem 1.3rem;
+  border-radius: 4px;
   background: transparent;
-  padding: 0;
-  border: none;
-  transition: opacity 0.3s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .cv-btn:hover {
-  opacity: 0.6;
+  background: var(--text-color);
+  color: var(--bg-color);
 }
 
-.social-links-list {
+.social-links-flow {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.4rem;
 }
 
-.social-item {
+.social-row {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
 .social-label {
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-light);
+  color: var(--text-muted);
 }
 
 .social-link {
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
+.social-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.social-icon {
+  color: var(--text-muted);
+}
+
+/* Footer */
 .footer {
-  padding: 1.9rem 0;
-  margin-top: 3.8rem;
+  padding: 2.5rem 0;
+  margin-top: 5rem;
+  border-top: 0.5px solid var(--border-color);
   position: relative;
   z-index: 2;
 }
 
 .footer-inner {
   width: 100%;
-  padding: 0 2rem;
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.72rem;
-  color: var(--text-light);
+  font-size: 0.78rem;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
-@media (max-width: 991px) {
+/* ──────────────────────────────────────────────────────────────────────────
+   RESPONSIVE MEDIA QUERIES (Clean Vertical Flow & High Legibility)
+   ────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
   .top-header {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    padding: 1.1rem 1.8rem;
   }
-  .header-col:nth-child(3), .header-col:nth-child(4) {
-    display: none;
+
+  .hero-section {
+    padding: 2rem 1.8rem;
   }
-  .hero-huge-text-top, .hero-huge-text-bottom {
-    font-size: clamp(3rem, 12vw, 6rem);
+  
+  .main-content {
+    padding: 0 1.8rem;
+    gap: 4.5rem;
   }
-  .about-grid, .contact-content-grid {
+
+  .about-grid, .contact-editorial-grid {
     grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .level-row-item {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .project-frame-row {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .footer-inner {
+    padding: 0 1.8rem;
   }
 }
 
 @media (max-width: 768px) {
   .top-header {
-    grid-template-columns: 1fr;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.9rem 1.25rem;
   }
-  .header-col:nth-child(2) {
+  
+  .header-left-spacer,
+  .desktop-nav,
+  .desktop-lang {
     display: none;
   }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  /* Hero on mobile: Strictly aligned left top, center bio, right bottom */
   .hero-section {
-    padding: 5rem 1.5rem 1.5rem 1.5rem;
-  }
-  .hero-bottom-section {
+    height: auto;
+    min-height: calc(100svh - 56px);
+    padding: 2rem 1.25rem 2rem 1.25rem;
+    display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 2rem;
+    justify-content: space-between;
+    box-sizing: border-box;
   }
+
+  .hero-top-row {
+    text-align: left;
+    width: 100%;
+  }
+
+  .hero-huge-text-top {
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
+    text-align: left;
+    line-height: 0.95;
+  }
+
+  .hero-center-row {
+    margin: 2.2rem 0;
+    width: 100%;
+  }
+
+  .hero-bio-container {
+    max-width: 100%;
+    gap: 0.8rem;
+  }
+
+  .hero-bio-text {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .hero-bottom-row {
+    text-align: right;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .hero-huge-text-bottom {
     text-align: right;
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
+    line-height: 0.95;
+    width: 100%;
   }
+
+  /* Main content mobile vertical flow */
   .main-content {
-    padding: 0 1.5rem;
+    padding: 0 1.25rem;
+    gap: 4rem;
   }
+
+  .section {
+    padding-top: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .summary-paragraph {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+  }
+
+  /* Architecture levels on mobile */
+  .level-row-item {
+    padding: 1.1rem 0;
+    gap: 0.6rem;
+  }
+
+  .level-indicator-col {
+    gap: 0.6rem;
+  }
+
+  .level-name {
+    font-size: 0.9rem;
+  }
+
+  .minimal-tech-tag {
+    font-size: 0.74rem;
+    padding: 0.18rem 0.45rem;
+  }
+
+  /* Projects on mobile */
+  .projects-editorial-list {
+    gap: 2.5rem;
+  }
+
+  .project-frame-row {
+    padding: 1.5rem 0;
+    gap: 1.4rem;
+  }
+
+  .proj-heading {
+    font-size: 1.25rem;
+  }
+
+  .proj-summary {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .proj-bullet-list li {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .project-thumbnail-wrapper {
+    max-width: 100%;
+  }
+
+  /* Contact & Footer on mobile */
+  .huge-email-link {
+    font-size: 1.25rem;
+  }
+
+  .footer {
+    margin-top: 3.5rem;
+    padding: 1.8rem 0;
+  }
+
+  .footer-inner {
+    padding: 0 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
   .hover-image-follower {
     display: none;
   }
 }
 
-@media (max-width: 640px) {
-  .top-header {
-    justify-content: flex-end;
-    padding: 1.1rem 1.25rem;
-  }
-
-  .hero-section {
-    padding: 4.8rem 1.1rem 1.25rem;
-  }
-
-  .hero-huge-text-top {
-    font-size: clamp(2.5rem, 11vw, 3.4rem);
-    text-align: left;
-    width: 100%;
-  }
-
-  .hero-huge-text-bottom {
-    font-size: clamp(2.5rem, 11vw, 3.4rem);
-    text-align: right;
-    width: 100%;
-  }
-
-  .hero-bottom-section {
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 1.5rem;
-  }
-
-  .hero-bio-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 90%;
-    max-width: 100%;
-  }
-
-  .hero-arrow {
-    display: none;
-  }
-
-  .main-content {
-    padding: 0 1rem;
-    gap: 2.2rem;
-  }
-
-  .section {
-    padding-top: 1.5rem;
-    gap: 1rem;
-  }
-
-  .section-title {
-    font-size: clamp(1.7rem, 5vw, 2.1rem);
-  }
-
-  .about-grid,
-  .contact-content-grid {
-    gap: 1.25rem;
-  }
-
-  .summary-paragraph {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin-bottom: 0.8rem;
-  }
-
-  .education-text,
-  .proj-description,
-  .contact-sub-text {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-
-  .sub-block-title {
-    margin-top: 1.2rem;
-    font-size: 0.7rem;
-  }
-
-  .proj-title {
-    font-size: 1.2rem;
-  }
-
-  .proj-bullet-list {
-    font-size: 0.85rem;
-    gap: 0.3rem;
-  }
-
-  .skills-grid {
-    width: 100%;
-  }
-
-  .huge-email-link {
-    font-size: clamp(1.1rem, 4.5vw, 1.45rem);
-  }
-
-  .cv-btn {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .footer-inner {
-    flex-direction: column;
-    gap: 0.4rem;
-    text-align: left;
-    align-items: flex-start;
-    padding: 0 1rem;
-  }
-}
-
 @media (max-width: 480px) {
-  .hero-section {
-    padding: 3.5rem 0.5rem 2.5rem;
+  .hero-huge-text-top {
+    font-size: clamp(2.2rem, 11vw, 3.2rem);
+    text-align: left;
   }
 
-  .hero-huge-text-top,
   .hero-huge-text-bottom {
-    font-size: 60px;
-  }
-
-  .main-content {
-    padding: 0 0.8rem;
+    font-size: clamp(2.2rem, 11vw, 3.2rem);
+    text-align: right;
   }
 
   .section-title {
-    font-size: 1.55rem;
+    font-size: 1.45rem;
   }
 
-  .proj-title {
-    font-size: 1.05rem;
+  .proj-footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
   }
 
-  .project-row-item {
-    padding: 0.8rem 0;
+  .proj-github-action {
+    align-self: flex-start;
   }
 }
 </style>

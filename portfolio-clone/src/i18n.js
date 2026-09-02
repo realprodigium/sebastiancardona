@@ -4,197 +4,249 @@ const messages = {
   en: {
     name: 'Sebastián Cardona',
     role: 'Software Engineer',
-    subtitleRole: 'Backend & Data | AI Automation',
+    subtitleRole: 'Full Stack, Backend & Systems Architecture',
     locationText: 'Colombia | Remote & Relocation',
-    bio: 'I design and build backend systems, APIs, data-driven applications, and intelligent automation workflows using open-source technologies.',
+    bio: 'Software Engineer focused on Full Stack, Mobile, Backend Systems, Architecture, and Cloud/DevOps, with practical experience in IoT platforms and data pipelines.',
     aboutTitle: 'About Me',
-    aboutP1: 'Software Engineer focused on Backend Development, Data Engineering and AI-driven Automation.',
-    aboutP2: 'My experience includes developing real-time monitoring systems, designing secure REST APIs, integrating IoT devices through MQTT communication and managing relational databases for data persistence and analytics.',
-    aboutP3: 'I enjoy solving problems involving distributed systems, data pipelines, automation workflows and intelligent applications that combine software engineering with artificial intelligence.',
-    skillsTitle: 'Technical Skills',
+    aboutP1: 'Software Engineer oriented towards backend development, system design, and software architecture, with practical experience engineering full stack web applications, progressive web apps (PWA), IoT platforms, and data processing systems. I approach development from an engineering discipline across the entire SDLC: requirement elicitation, domain and data modeling, architecture and API design, implementation, testing, security hardiness, and deployment.',
+    aboutP2: 'I select architectures, patterns, and technologies based on functional and non-functional requirements, prioritizing strong engineering fundamentals over transient tools. I apply core principles including SOLID, ACID, and CAP, secure development best practices aligned with OWASP, ISO, and IEEE standards, and agile methodologies such as Scrum.',
+    aboutP3: 'Experienced in implementing JWT, rotating access & refresh tokens, HttpOnly Cookies, RBAC, Redis token revocation, rate limiting, Argon2id hashing, input sanitization, XSS mitigation, and containerization with Docker to deliver secure, maintainable, high-performance, scalable, and resilient software.',
     educationTitle: 'Education',
-    educationText: 'Software Engineering — Universidad Cooperativa de Colombia (2022 - 2026)',
-    skills: {
-      languages: 'Python, JavaScript, SQL, C#',
-      backend: 'FastAPI, Django, Express.js, ASP.NET',
-      databases: 'PostgreSQL, MySQL, Supabase',
-      apis: 'REST APIs, JWT, Argon2, Access Control',
-      data: 'Data Modeling, ETL Concepts, Data Processing, SQL Analytics',
-      iot: 'MQTT, HiveMQ, Arduino IDE',
-      devops: 'Docker, Git, GitHub, Render, Vercel',
-      ai: 'Workflow Automation, API Integrations, LLM Applications'
-    },
-    skillCategories: {
-      languages: 'Languages',
-      backend: 'Backend Frameworks',
-      databases: 'Databases',
-      apis: 'APIs & Security',
-      data: 'Data Engineering',
-      iot: 'IoT & Messaging',
-      devops: 'DevOps & Cloud',
-      ai: 'AI & Automation'
-    },
+    educationText: 'Software Engineering — Universidad Cooperativa de Colombia (2026)',
+    certificationsTitle: 'Certifications',
+    certifications: [
+      'SoftSkills Strengthening Program HCL — HabComLearn (2024)',
+      'Emotional Intelligence — CUN (2022)'
+    ],
+    skillsTitle: 'Architecture Levels & Principles',
+    skillsDiagramSubtitle: 'Software as Engineered Systems: Layered Structure from UI to Infrastructure & Security',
+    skillLayers: [
+      {
+        level: 'L1',
+        name: 'Full Stack & Mobile Layer',
+        roleType: 'UI, Mobile & Interaction',
+        tags: ['React', 'React Native', 'TypeScript', 'JavaScript', 'Vue.js', 'PWA', 'Jenny Preece Design Method', 'Minimalismo']
+      },
+      {
+        level: 'L2',
+        name: 'Backend & Services Layer',
+        roleType: 'APIs & Computation',
+        tags: ['FastAPI (Python)', 'Django', 'Node.js (Express)', 'ASP.NET (C#)', 'REST APIs', 'WebSockets', 'SOAP / WSDL', 'Microservices']
+      },
+      {
+        level: 'L3',
+        name: 'Data & Persistence Layer',
+        roleType: 'Storage & Modeling',
+        tags: ['PostgreSQL', 'Supabase', 'Redis', 'MySQL', 'SQLAlchemy + Alembic', 'Data Modeling', 'ETL Pipelines']
+      },
+      {
+        level: 'L4',
+        name: 'DevOps & Cloud Infrastructure',
+        roleType: 'Cloud & Deployment',
+        tags: ['Docker', 'Docker Compose', 'AWS', 'Supabase', 'GitHub Actions (CI/CD)', 'Git & GitHub', 'Render', 'Vercel']
+      },
+      {
+        level: 'L5',
+        name: 'Architecture, Security & Standards',
+        roleType: 'Quality & Governance',
+        tags: ['SOLID Principles', 'ACID & CAP Theorems', 'OWASP Standards', 'JWT (RS256/HS256)', 'Argon2id', 'RBAC & Rate Limiting', 'HttpOnly Cookies']
+      },
+      {
+        level: 'L6',
+        name: 'IoT & Applied Systems (Specialized)',
+        roleType: 'Telemetry & Inference',
+        tags: ['MQTT', 'HiveMQ Broker', 'ESP32 / Arduino', 'OWL 2 / Protégé & SWRL', 'LEGAL-BETO (NLP)', 'LLM Integrations']
+      }
+    ],
     projectsTitle: 'Featured Projects',
-    github: 'GitHub',
+    projectsSubtitle: 'Engineered systems built for reliability, security, and performance',
+    github: 'GitHub Repo',
+    livePreview: 'Live Preview',
     footer: 'Designed with a minimalist aesthetic in mind. Built with Vue.js.',
     contactTitle: 'Get in Touch',
-    contactSub: "Looking for a backend, data, or AI engineer? Let's build something exceptional together.",
+    contactSub: "Looking for a software engineer to build robust, elegant, and secure systems? Let's connect.",
     emailLabel: 'Email',
     phoneLabel: 'Phone',
     linkedinLabel: 'LinkedIn',
     githubLabel: 'GitHub',
+    xLabel: 'X / Twitter',
     downloadCV: 'Download CV (PDF)',
-    scrollDown: 'Scroll to explore',
     projects: [
       {
         id: 1,
         num: '01/',
-        title: 'Real-Time CO2 Monitoring Platform',
-        description: 'A real-time CO2 monitoring platform integrated with IoT devices via MQTT, featuring secure authentication, data persistence, and visualization dashboards for remote environmental monitoring.',
+        badge: 'Full Stack & Mobile PWA',
+        title: 'Car Inspection | Vehicle Inspection PWA',
+        subtitle: 'Special Vehicle Inspection Sector (2026)',
+        description: 'Industrial full stack PWA replacing paper inspections with complete digital traceability, audit trails, evidence logs, and automated reporting.',
         bullet_points: [
-          'Developed backend services for sensor data ingestion, validation, and persistence.',
-          'Designed and implemented secure REST APIs using FastAPI.',
-          'Integrated MQTT communication between IoT devices and backend services.',
-          'Implemented JWT authentication and Argon2 password hashing.',
-          'Designed PostgreSQL database structures for telemetry storage and historical analysis.'
+          'Modular Layered + MVC architecture with FastAPI, React, TypeScript, PostgreSQL, and SQLAlchemy.',
+          'Secure auth with JWT, HttpOnly cookies, RBAC, Argon2id, and Redis token revocation under OWASP.',
+          'Containerized environment with Docker Compose for local orchestration and deployment.'
         ],
-        github_link: 'https://github.com/realprodigium/risk_follower',
-        technologies: 'Python (FastAPI), MQTT, PostgreSQL (Supabase), Docker, Render, JWT, Argon2',
-        preview: '/co2bien.png'
+        github_link: 'https://github.com/sebastiansaintt/car_checking',
+        technologies: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'Redis', 'Docker Compose', 'PWA', 'OWASP'],
+        preview: '/car_checking.png'
       },
       {
         id: 2,
         num: '02/',
+        badge: 'Enterprise Architecture & NLP',
         title: 'LawSim Pymes | Regulatory Simulation Platform',
-        description: 'Architected an enterprise-grade technical blueprint combining Layered, Microservices, and MVC patterns to decouple standard CRUD operations from heavy computation pipelines. The core platform leverages an OWL 2 Ontology (Protégé) and the HermiT Reasoner paired with LEGAL-BETO (NLP) to autonomously ingest dynamic Colombian regulations and infer financial impacts on PyMEs through automated SWRL rules. The technical specification features formal SOAP/WSDL microservice interfaces, distributed caching layers, and strict cryptographic security mechanisms (Asymmetric JWT + RS256, AES-256 at-rest encryption).',
+        subtitle: 'Enterprise System Architecture & Rule Reasoning (2025)',
+        description: 'Enterprise hybrid architecture combining Layered, Microservices, and MVC patterns to decouple CRUD operations from computational reasoning pipelines.',
         bullet_points: [
-          'Designed a layered architecture to separate transactional services from computational reasoning workflows.',
-          'Modeled regulatory knowledge using OWL 2 in Protégé and inference rules with SWRL for automated impact assessment.',
-          'Integrated LEGAL-BETO (NLP) for parsing and understanding Colombian regulatory text.',
-          'Specified SOAP/WSDL interfaces and distributed caching for scalable enterprise communication.',
-          'Defined secure authentication and encryption patterns with JWT RS256 and AES-256.'
+          'Modeled domain ontologies in OWL 2 (Protégé) with HermiT reasoner, SWRL rules, and LEGAL-BETO NLP.',
+          'Defined SOAP/WSDL microservices, Redis distributed caching, and asymmetric JWT (RS256) security.',
+          'Applied UWE and OOHDM methodologies for user-centric interaction and navigation flows.'
         ],
         github_link: 'https://github.com/sebastiansaintt/WebDesign',
-        technologies: 'Vue.js, Node.js, Python, OWL 2 / Protégé, LEGAL-BETO (NLP), SOAP / WSDL, PostgreSQL, Redis, Software Architecture',
+        technologies: ['Software Architecture', 'OWL 2 / Protégé', 'NLP (LEGAL-BETO)', 'FastAPI', 'Vue.js', 'SOAP / WSDL', 'Redis'],
         preview: '/lawsim.png'
       },
       {
         id: 3,
         num: '03/',
-        title: 'Car Checking | Vehicle Inspection Management System',
-        description: 'A digital platform that replaces paper-based vehicle inspections: finding logs, photo/audio evidence, digital signature authorization, and full audit trail per report.',
+        badge: 'Real-time Systems & IoT',
+        title: 'Industrial Environmental Monitoring Platform',
+        subtitle: 'Craft Breweries Telemetry (2025 - 2026)',
+        description: 'Real-time telemetry platform integrated with IoT devices via MQTT and WebSockets for live monitoring, data persistence, and threshold risk alerting.',
         bullet_points: [
-          'Built a FastAPI backend with PostgreSQL, SQLAlchemy and Alembic migrations.',
-          'Modeled Vehicle, InspectionReport, MediaEvidence, Authorization and AuditLog entities.',
-          'Implemented JWT + refresh tokens with Argon2 password hashing.',
-          'Designed automatic audit logging (previous/new state) for every report change.',
-          'Built a PWA frontend for the inspection dashboard.'
+          'Ingestion and validation backend for telemetry (temperature, humidity, CO2) from ESP32 microcontrollers.',
+          'High-throughput REST APIs and WebSocket feeds with FastAPI and PostgreSQL persistence.',
+          'JWT authentication, Argon2 hashing, and granular RBAC permissions.'
         ],
-        github_link: 'https://github.com/sebastiansaintt/car_checking',
-        technologies: 'React+Vite, FastAPI, SQLAlchemy, PostgreSQL, Docker, Github, Render',
-        preview: '/car_checking.png'
+        github_link: 'https://github.com/realprodigium/risk_follower',
+        technologies: ['FastAPI', 'WebSockets', 'MQTT', 'PostgreSQL', 'Supabase', 'Docker', 'ESP32'],
+        preview: '/co2bien.png'
       }
     ]
   },
   es: {
     name: 'Sebastián Cardona',
     role: 'Ingeniero de Software',
-    subtitleRole: 'Backend y Datos | Automatización con IA',
+    subtitleRole: 'Full Stack, Backend & Arquitectura de Sistemas',
     locationText: 'Colombia | Remoto y Relocalización',
-    bio: 'Diseño y construyo sistemas backend, APIs, aplicaciones basadas en datos y flujos de automatización inteligentes utilizando tecnologías de código abierto.',
+    bio: 'Ingeniero de Software enfocado en Desarrollo Full Stack, Mobile, Sistemas Backend, Arquitectura y Cloud/DevOps, con experiencia práctica en plataformas IoT y flujos de datos.',
     aboutTitle: 'Sobre Mí',
-    aboutP1: 'Ingeniero de Software enfocado en Desarrollo Backend, Ingeniería de Datos y Automatización impulsada por IA.',
-    aboutP2: 'Mi experiencia incluye el desarrollo de sistemas de monitoreo en tiempo real, diseño de APIs REST seguras, integración de dispositivos IoT mediante comunicación MQTT y la administración de bases de datos relacionales para la persistencia de datos y análisis.',
-    aboutP3: 'Disfruto resolver problemas que involucran sistemas distribuidos, pipelines de datos, flujos de automatización y aplicaciones inteligentes que combinan la ingeniería de software con la inteligencia artificial.',
-    skillsTitle: 'Habilidades Técnicas',
+    aboutP1: 'Ingeniero de Software con orientación al desarrollo backend, arquitectura y diseño de sistemas, con experiencia práctica construyendo aplicaciones full stack, aplicaciones web progresivas (PWA), plataformas IoT y sistemas de procesamiento de datos. Abordo el desarrollo desde una perspectiva de ingeniería, participando en el SDLC desde la elicitación de requisitos, modelado de dominio y datos, diseño de arquitectura y APIs, hasta implementación, pruebas, seguridad y despliegue.',
+    aboutP2: 'Selecciono arquitecturas, patrones y tecnologías según los requisitos funcionales y no funcionales del problema, priorizando fundamentos de ingeniería sobre herramientas específicas. Aplico principios como SOLID, ACID y CAP, prácticas de diseño y desarrollo seguro alineadas con estándares OWASP, ISO e IEEE, y metodologías ágiles como Scrum.',
+    aboutP3: 'He implementado mecanismos como JWT, access y refresh tokens rotativos, HttpOnly Cookies, RBAC, rate limiting, Argon2id, sanitización y validación de entradas, protección frente a XSS y contenerización con Docker, buscando construir software seguro, mantenible, escalable y preparado para evolucionar.',
     educationTitle: 'Educación',
-    educationText: 'Ingeniería de Software - Universidad Cooperativa de Colombia (2022 - 2026)',
-    skills: {
-      languages: 'Python, JavaScript, SQL, C#',
-      backend: 'FastAPI, Django, Express.js, ASP.NET',
-      databases: 'PostgreSQL, MySQL, Supabase',
-      apis: 'APIs REST, JWT, Argon2, Control de Accesos',
-      data: 'Modelado de Datos, Conceptos ETL, Procesamiento de Datos, Análisis SQL',
-      iot: 'MQTT, HiveMQ, Arduino IDE',
-      devops: 'Docker, Git, GitHub, Render, Vercel',
-      ai: 'Automatización de Flujos, Integración de APIs, Aplicaciones LLM'
-    },
-    skillCategories: {
-      languages: 'Lenguajes',
-      backend: 'Frameworks Backend',
-      databases: 'Bases de Datos',
-      apis: 'APIs y Seguridad',
-      data: 'Ingeniería de Datos',
-      iot: 'IoT y Mensajería',
-      devops: 'DevOps y Cloud',
-      ai: 'IA y Automatización'
-    },
+    educationText: 'Ingeniería de Software — Universidad Cooperativa de Colombia (2026)',
+    certificationsTitle: 'Certificaciones',
+    certifications: [
+      'Programa de Fortalecimiento en SoftSkills HCL — HabComLearn (2024)',
+      'Inteligencia Emocional — CUN (2022)'
+    ],
+    skillsTitle: 'Niveles de Arquitectura & Principios',
+    skillsDiagramSubtitle: 'Habilidades y Herramientas con las que resuelvo un problema: Dividido por capas',
+    skillLayers: [
+      {
+        level: 'L1',
+        name: 'Capa Full Stack & Mobile',
+        roleType: 'UI, Móvil e Interacción',
+        tags: ['React', 'React Native', 'TypeScript', 'JavaScript', 'Vue.js', 'PWA', 'Jenny Preece Design Method', 'Minimalismo']
+      },
+      {
+        level: 'L2',
+        name: 'Capa Backend & Servicios',
+        roleType: 'APIs & Cómputo',
+        tags: ['FastAPI (Python)', 'Django', 'Node.js (Express)', 'ASP.NET (C#)', 'APIs REST', 'WebSockets', 'SOAP / WSDL', 'Microservicios']
+      },
+      {
+        level: 'L3',
+        name: 'Capa de Datos & Persistencia',
+        roleType: 'Almacenamiento & Modelado',
+        tags: ['PostgreSQL', 'Supabase', 'Redis', 'MySQL', 'SQLAlchemy + Alembic', 'Modelado de Datos', 'Pipelines ETL']
+      },
+      {
+        level: 'L4',
+        name: 'Infraestructura, DevOps & Cloud',
+        roleType: 'Cloud & Despliegue',
+        tags: ['Docker', 'Docker Compose', 'AWS', 'Supabase', 'GitHub Actions (CI/CD)', 'Git & GitHub', 'Render', 'Vercel']
+      },
+      {
+        level: 'L5',
+        name: 'Arquitectura, Seguridad & Estándares',
+        roleType: 'Calidad & Gobernanza',
+        tags: ['Principios SOLID', 'Teoremas ACID & CAP', 'Estándares OWASP', 'JWT (RS256/HS256)', 'Argon2id', 'RBAC & Rate Limiting', 'HttpOnly Cookies']
+      },
+      {
+        level: 'L6',
+        name: 'IoT & Sistemas Aplicados (Especializado)',
+        roleType: 'Telemetría e Inferencia',
+        tags: ['MQTT', 'Broker HiveMQ', 'ESP32 / Arduino', 'OWL 2 / Protégé & SWRL', 'LEGAL-BETO (NLP)', 'Integraciones LLM']
+      }
+    ],
     projectsTitle: 'Proyectos Destacados',
-    github: 'GitHub',
+    projectsSubtitle: 'Sistemas diseñados con rigor de ingeniería, seguridad y rendimiento',
+    github: 'Repositorio GitHub',
+    livePreview: 'Vista Previa',
     footer: 'Construido con Vue.js.',
     contactTitle: 'Contacto',
-    contactSub: '¿Buscas un ingeniero backend, de datos o de IA? Construyamos juntos.',
+    contactSub: '¿Buscas un Ingeniero de Software para construir soluciones sólidas, elegantes y escalables? Hablemos.',
     emailLabel: 'Correo electrónico',
     phoneLabel: 'Teléfono',
     linkedinLabel: 'LinkedIn',
     githubLabel: 'GitHub',
+    xLabel: 'X / Twitter',
     downloadCV: 'Descargar CV (PDF)',
-    scrollDown: 'Desplaza para explorar',
     projects: [
       {
         id: 1,
         num: '01/',
-        title: 'Plataforma de Monitoreo de CO2 en Tiempo Real',
-        description: 'Una plataforma de monitoreo de CO2 en tiempo real integrada con dispositivos IoT a través de MQTT, con autenticación segura, persistencia de datos y paneles de visualización para monitoreo ambiental remoto.',
+        badge: 'Full Stack & Mobile PWA',
+        title: 'Car Inspection | Sistema PWA de Inspección Vehicular',
+        subtitle: 'Interventoría y Mantenimiento de Vehículos Especiales (2026)',
+        description: 'Aplicación full stack PWA que digitaliza la inspección técnica vehicular con trazabilidad completa, auditoría de cambios, evidencias y reportería.',
         bullet_points: [
-          'Desarrollo de servicios backend para ingesta, validación y persistencia de datos de sensores.',
-          'Diseño e implementación de APIs REST seguras con FastAPI.',
-          'Integración de comunicación MQTT entre dispositivos IoT y servicios backend.',
-          'Implementación de autenticación JWT y hashing de contraseñas con Argon2.',
-          'Diseño de estructuras de base de datos PostgreSQL para almacenamiento de telemetría y análisis histórico.'
+          'Arquitectura modular por capas + MVC con FastAPI, React, TypeScript, PostgreSQL y SQLAlchemy.',
+          'Autenticación segura con JWT, cookies HttpOnly/Secure, RBAC, Argon2id y Redis bajo OWASP.',
+          'Contenerización completa con Docker Compose para desarrollo y despliegue.'
         ],
-        github_link: 'https://github.com/realprodigium/risk_follower',
-        technologies: 'Python (FastAPI), MQTT, PostgreSQL (Supabase), Docker, Render, JWT, Argon2',
-        preview: '/co2bien.png'
+        github_link: 'https://github.com/sebastiansaintt/car_checking',
+        technologies: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'Redis', 'Docker Compose', 'PWA', 'OWASP'],
+        preview: '/car_checking.png'
       },
       {
         id: 2,
         num: '02/',
-        title: 'Law-Sim Pymes',
-        description: 'Arquitecté un blueprint técnico de nivel empresarial que combina patrones Layered, Microservices y MVC para desacoplar las operaciones CRUD estándar de los pipelines de cómputo intensivo. La tecnología permite ingerir de forma autónoma regulaciones colombianas dinámicas e inferir impactos financieros en PyMEs mediante reglas SWRL automatizadas.',
+        badge: 'Arquitectura Empresarial & NLP',
+        title: 'LawSim Pymes | Plataforma de Simulación Regulatoria',
+        subtitle: 'Arquitectura de Sistemas & Motor de Inferencia Normativa (2025)',
+        description: 'Blueprint arquitectónico híbrido de nivel empresarial que combina Arquitectura por Capas, Microservicios y MVC para desacoplar operaciones CRUD de pipelines de inferencia lógica.',
         bullet_points: [
-          'Diseñé una arquitectura en capas para separar los servicios transaccionales de los flujos de razonamiento computacional.',
-          'Modelé el conocimiento regulatorio con OWL 2 en Protégé y reglas de inferencia con SWRL para evaluación automatizada de impactos.',
-          'Integré LEGAL-BETO (NLP) para analizar y comprender textos regulatorios colombianos.',
-          'Especifiqué interfaces SOAP/WSDL y caché distribuida para una comunicación empresarial escalable.',
-          'Definí patrones de autenticación y cifrado seguros con JWT RS256 y AES-256.'
+          'Modelado ontológico en OWL 2 (Protégé) con razonador HermiT, reglas SWRL y NLP con LEGAL-BETO.',
+          'Interfaces SOAP/WSDL, caché distribuida con Redis y seguridad criptográfica con JWT RS256.',
+          'Metodologías UWE y OOHDM para modelado de interacción orientada al usuario.'
         ],
         github_link: 'https://github.com/sebastiansaintt/WebDesign',
-        technologies: 'Vue.js, Node.js, Python, OWL 2 / Protégé, LEGAL-BETO (NLP), SOAP / WSDL, PostgreSQL, Redis',
+        technologies: ['Software Architecture', 'OWL 2 / Protégé', 'NLP (LEGAL-BETO)', 'FastAPI', 'Vue.js', 'SOAP / WSDL', 'Redis'],
         preview: '/lawsim.png'
       },
       {
         id: 3,
         num: '03/',
-        title: 'Car Checking | Sistema de Gestión de Inspecciones Vehiculares',
-        description: 'Plataforma que digitaliza el proceso de inspección vehicular hoy hecho en papel: registro de hallazgos, evidencia fotográfica/audio, firma de autorización y trazabilidad completa de cambios por reporte.',
+        badge: 'Sistemas en Tiempo Real & IoT',
+        title: 'Plataforma de Monitoreo Ambiental Industrial',
+        subtitle: 'Telemetría para Procesos de Fermentación (2025 - 2026)',
+        description: 'Plataforma de monitoreo en tiempo real conectada a microcontroladores IoT vía MQTT y WebSockets para telemetría continua, persistencia y alertas.',
         bullet_points: [
-          'Backend con FastAPI, PostgreSQL, SQLAlchemy y migraciones con Alembic.',
-          'Modelado de entidades Vehicle, InspectionReport, MediaEvidence, Authorization y AuditLog.',
-          'Autenticación JWT + refresh tokens con hashing Argon2.',
-          'Auditoría automática (estado anterior/nuevo) por cada cambio en un reporte.',
-          'Frontend PWA con TypeScript para el dashboard de inspección.'
+          'Backend de ingesta y validación de telemetría (temperatura, humedad, CO2) desde microcontroladores ESP32.',
+          'APIs REST y WebSockets de alto rendimiento con FastAPI y PostgreSQL.',
+          'Autenticación JWT, cifrado con Argon2 y control de accesos RBAC.'
         ],
-        github_link: 'https://github.com/sebastiansaintt/car_checking',
-        technologies: 'React+Vite, FastAPI, SQLAlchemy, PostgreSQL, Docker, Github, Render',
-        preview: '/car_checking.png'
+        github_link: 'https://github.com/realprodigium/risk_follower',
+        technologies: ['FastAPI', 'WebSockets', 'MQTT', 'PostgreSQL', 'Supabase', 'Docker', 'ESP32'],
+        preview: '/co2bien.png'
       }
     ]
   }
 }
 
-const userLang = navigator.language || navigator.userLanguage;
-const defaultLocale = userLang.startsWith('es') ? 'es' : 'en';
+const userLang = typeof navigator !== 'undefined' ? (navigator.language || navigator.userLanguage) : 'es'
+const defaultLocale = userLang && userLang.startsWith('es') ? 'es' : 'en'
 
 const i18n = createI18n({
   legacy: false,
