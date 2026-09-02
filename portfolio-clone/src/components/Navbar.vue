@@ -6,7 +6,7 @@ const { t, locale } = useI18n()
 const emit = defineEmits(['open-command-palette'])
 
 // Theme Switcher Logic
-const isDark = ref(true)
+const isDark = ref(false)
 
 const toggleTheme = () => {
   isDark.value = !isDark.value
@@ -27,12 +27,12 @@ const toggleLanguage = () => {
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
-  if (savedTheme === 'light') {
-    isDark.value = false
-    document.documentElement.classList.remove('dark')
-  } else {
+  if (savedTheme === 'dark') {
     isDark.value = true
     document.documentElement.classList.add('dark')
+  } else {
+    isDark.value = false
+    document.documentElement.classList.remove('dark')
   }
 
   const savedLang = localStorage.getItem('user-lang')
