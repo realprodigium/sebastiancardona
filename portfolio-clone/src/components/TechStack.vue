@@ -28,6 +28,13 @@ const techItems = [
 <template>
   <section id="stack" class="animate-in-up-on-view container mx-auto max-w-3xl px-5 sm:px-6 py-6" aria-labelledby="tech-stack-heading">
     <div class="mb-4">
+      <div class="mb-3 inline-flex items-center gap-2 rounded-xl border border-border/80 bg-card/60 px-3 py-2 text-xs font-medium text-foreground shadow-xl backdrop-blur-md">
+        <span class="relative flex size-2">
+          <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-75"></span>
+          <span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+        </span>
+        <span><strong>{{ t('workingOnLabel') }}</strong> {{ t('workingOnText') }}</span>
+      </div>
       <h2 id="tech-stack-heading" class="font-bold text-xs uppercase tracking-[0.2em] text-secondary">
         {{ t('techStackHeading') }}
       </h2>

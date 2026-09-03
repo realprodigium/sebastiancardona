@@ -54,6 +54,8 @@ const messages = {
       'SoftSkills Strengthening Program HCL — HabComLearn (2024)',
       'Emotional Intelligence — CUN (2022)'
     ],
+    workingOnLabel: 'Right now:',
+    workingOnText: 'Informal research assistant, teaching React Native',
     techStackHeading: 'TECH STACK',
     techStackSubtitle: 'Languages, frameworks, databases, and infrastructure tools',
     projectsHeading: 'FEATURED PROJECTS',
@@ -175,6 +177,8 @@ const messages = {
       'Programa de Fortalecimiento en SoftSkills HCL — HabComLearn (2024)',
       'Inteligencia Emocional — CUN (2022)'
     ],
+    workingOnLabel: 'Ahora mismo:',
+    workingOnText: 'Auxiliar de investigación informal, enseñando React Native',
     techStackHeading: 'TECH STACK',
     techStackSubtitle: 'Lenguajes, frameworks, bases de datos y herramientas de infraestructura',
     projectsHeading: 'PROYECTOS DESTACADOS',
